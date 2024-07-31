@@ -23,7 +23,7 @@ Currently supported maps:
 </br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/yandexMaps.svg" width="25"> Yandex Maps
 </br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/yandexNavi.svg" width="25"> Yandex Navigator
 </br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/citymapper.svg" width="25"> Citymapper
-</br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/mapswithme.svg" width="25"> Maps.me
+</br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/mapswithme.svg" width="25"> Maps.me (iOS only)
 </br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/osmand.svg" width="25"> OsmAnd
 </br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/osmandplus.svg" width="25"> OsmAnd+ (Android only)
 </br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/doubleGis.svg" width="25"> 2GIS
@@ -31,9 +31,15 @@ Currently supported maps:
 </br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/here.svg" width="25"> HERE WeGo
 </br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/petal.svg" width="25"> Petal Maps (Android only)
 </br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/tomtomgo.svg" width="25"> TomTom Go
+</br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/tomtomgofleet.svg" width="25"> TomTom Go Fleet
 </br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/copilot.svg" width="25"> CoPilot
-</br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/flitsmeister.svg" width="25"> Flitsmeister
-</br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/truckmeister.svg" width="25"> Truckmeister
+</br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/flitsmeister.svg" width="25"> Flitsmeister (Android only)
+</br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/truckmeister.svg" width="25"> Truckmeister (Android only)
+</br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/sygicTruck.svg" width="25"> Sygic Truck
+</br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/naver.svg" width="25"> Naver Map
+</br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/kakao.svg" width="25"> KakaoMap
+</br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/tmap.svg" width="25"> TMAP
+</br><img src="https://github.com/mattermoran/map_launcher/raw/master/assets/icons/mapyCz.svg" width="25"> Mapy.cz
 
 ## Get started
 
@@ -41,7 +47,7 @@ Currently supported maps:
 
 ```yaml
 dependencies:
-  map_launcher: ^3.0.0
+  map_launcher: ^3.3.1
   flutter_svg: # only if you want to use icons as they are svgs
 ```
 
@@ -64,8 +70,11 @@ dependencies:
     <string>here-location</string>
     <string>tomtomgo</string>
     <string>copilot</string>
-    <string>flitsmeister</string>
-    <string>truckmeister</string>
+    <string>com.sygic.aura</string>
+    <string>nmap</string>
+    <string>kakaomap</string>
+    <string>tmap</string>
+    <string>szn-mapy</string>
 </array>
 ```
 
@@ -139,6 +148,7 @@ if (await MapLauncher.isMapAvailable(MapType.google)) {
 | `.copilot`      | ✓                                                                        | ✓                                              | ✗             | ✗            | ✓             |
 | `.flitsmeister` | ✓ <br /> does not support marker <br /> shows directions instead         | ✗                                              | ✗             | ✗            | ✗             |
 | `.truckmeister` | ✓ <br /> does not support marker <br /> shows directions instead         | ✗                                              | ✗             | ✗            | ✗             |
+| `.sygicTruck`   | ✓ <br /> does not support marker <br /> shows directions instead         | ✗                                              | ✗             | ✗            | ✗             |
 
 ### Show Directions
 
@@ -177,6 +187,7 @@ if (await MapLauncher.isMapAvailable(MapType.google)) {
 | `.copilot`      | ✓             | ✓                  | always uses current location | ✗             | ✗                | ✗                                            | ✓             |
 | `.flitsmeister` | ✓             | ✗                  | always uses current location | ✗             | ✗                | ✗                                            | ✗             |
 | `.truckmeister` | ✓             | ✗                  | always uses current location | ✗             | ✗                | ✗                                            | ✗             |
+| `.sygicTruck`   | ✓             | ✗                  | always uses current location | ✗             | ✗                | ✗                                            | ✗             |
 
 ### Extra Params
 It's possible to pass some map specific query params like api keys etc using `extraParams` option

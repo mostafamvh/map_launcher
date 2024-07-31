@@ -267,7 +267,7 @@ String getMapDirectionsUrl({
         },
       );
 
-    case MapType.sygic:
+    case MapType.sygicTruck:
       // Documentation:
       // https://www.sygic.com/developers/professional-navigation-sdk/introduction
       return Utils.buildUrl(
@@ -289,7 +289,8 @@ String getMapDirectionsUrl({
         );
       }
       return Utils.buildUrl(
-        url: 'geo:${destination.latitude},${destination.longitude}', queryParams: {},
+        url: 'geo:${destination.latitude},${destination.longitude}',
+        queryParams: {},
       );
 
     case MapType.truckmeister:
@@ -307,6 +308,55 @@ String getMapDirectionsUrl({
         queryParams: {
           'q': '${destination.latitude},${destination.longitude}',
           ...(extraParams ?? {}),
+        },
+      );
+
+    case MapType.naver:
+      return Utils.buildUrl(
+        url: 'nmap://route/car',
+        queryParams: {
+          'slat': origin?.latitude.toString(),
+          'slng': origin?.longitude.toString(),
+          'sname': originTitle,
+          'dlat': '${destination.latitude}',
+          'dlng': '${destination.longitude}',
+          'dname': destinationTitle,
+          ...(extraParams ?? {}),
+        },
+      );
+
+    case MapType.kakao:
+      return Utils.buildUrl(
+        url: 'kakaomap://route',
+        queryParams: {
+          'sp':
+              origin == null ? null : '${origin.latitude},${origin.longitude}',
+          'ep': '${destination.latitude},${destination.longitude}',
+          ...(extraParams ?? {}),
+        },
+      );
+
+    case MapType.tmap:
+      return Utils.buildUrl(
+        url: 'tmap://route',
+        queryParams: {
+          'startname': originTitle,
+          'startx': origin?.longitude.toString(),
+          'starty': origin?.latitude.toString(),
+          'goalname': destinationTitle,
+          'goaly': '${destination.latitude}',
+          'goalx': '${destination.longitude}',
+          'carType': '1',
+          ...(extraParams ?? {}),
+        },
+      );
+
+    case MapType.mapyCz:
+      return Utils.buildUrl(
+        url: 'https://mapy.cz/zakladni',
+        queryParams: {
+          'id': '${destination.longitude},${destination.latitude}',
+          'source': 'coor',
         },
       );
   }

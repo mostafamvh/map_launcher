@@ -248,7 +248,7 @@ String getMapMarkerUrl({
         },
       );
 
-    case MapType.sygic:
+    case MapType.sygicTruck:
       // Documentation:
       // https://www.sygic.com/developers/professional-navigation-sdk/introduction
       return Utils.buildUrl(
@@ -292,6 +292,48 @@ String getMapMarkerUrl({
         queryParams: {
           'q': '${coords.latitude},${coords.longitude}',
           ...(extraParams ?? {}),
+        },
+      );
+
+    case MapType.naver:
+      return Utils.buildUrl(
+        url: 'nmap://place',
+        queryParams: {
+          'lat': '${coords.latitude}',
+          'lng': '${coords.longitude}',
+          'zoom': '$zoomLevel',
+          'name': title,
+          ...(extraParams ?? {}),
+        },
+      );
+
+    case MapType.kakao:
+      return Utils.buildUrl(
+        url: 'kakaomap://look',
+        queryParams: {
+          'p': '${coords.latitude},${coords.longitude}',
+          ...(extraParams ?? {}),
+        },
+      );
+
+    case MapType.tmap:
+      return Utils.buildUrl(
+        url: 'tmap://viewmap',
+        queryParams: {
+          'name': '$title',
+          'x': '${coords.longitude}',
+          'y': '${coords.latitude}',
+          ...(extraParams ?? {}),
+        },
+      );
+
+    case MapType.mapyCz:
+      return Utils.buildUrl(
+        url: 'https://mapy.cz/zakladni',
+        queryParams: {
+          'id': '${coords.longitude},${coords.latitude}',
+          'z': '$zoomLevel',
+          'source': 'coor',
         },
       );
   }

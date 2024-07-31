@@ -10,7 +10,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
-private enum class MapType { google, googleGo, amap, baidu, waze, yandexNavi, yandexMaps, citymapper, mapswithme, osmand, osmandplus, doubleGis, tencent, here, petal, tomtomgo, copilot, sygic, tomtomgofleet, flitsmeister, truckmeister }
+private enum class MapType { google, googleGo, amap, baidu, waze, yandexNavi, yandexMaps, citymapper, osmand, osmandplus, doubleGis, tencent, here, petal, tomtomgo, copilot, sygicTruck, tomtomgofleet, flitsmeister, truckmeister, naver, kakao, tmap, mapyCz }
 
 private class MapModel(val mapType: MapType, val mapName: String, val packageName: String, val urlPrefix: String) {
     fun toMap(): Map<String, String> {
@@ -47,7 +47,6 @@ class MapLauncherPlugin : FlutterPlugin, MethodCallHandler {
             MapModel(MapType.yandexNavi, "Yandex Navigator", "ru.yandex.yandexnavi", "yandexnavi://"),
             MapModel(MapType.yandexMaps, "Yandex Maps", "ru.yandex.yandexmaps", "yandexmaps://"),
             MapModel(MapType.citymapper, "Citymapper", "com.citymapper.app.release", "citymapper://"),
-            MapModel(MapType.mapswithme, "MAPS.ME", "com.mapswithme.maps.pro", "mapswithme://"),
             MapModel(MapType.osmand, "OsmAnd", "net.osmand", "osmandmaps://"),
             MapModel(MapType.osmandplus, "OsmAnd+", "net.osmand.plus", "osmandmaps://"),
             MapModel(MapType.doubleGis, "2GIS", "ru.dublgis.dgismobile", "dgis://"),
@@ -56,41 +55,25 @@ class MapLauncherPlugin : FlutterPlugin, MethodCallHandler {
             MapModel(MapType.petal, "Petal Maps", "com.huawei.maps.app", "petalmaps://"),
             MapModel(MapType.tomtomgo, "TomTom Go", "com.tomtom.gplay.navapp", "tomtomgo://"),
             MapModel(MapType.tomtomgofleet, "TomTom Go Fleet", "com.tomtom.gplay.navapp.gofleet", "tomtomgofleet://"),
-            MapModel(MapType.sygic, "Sygic Truck", "com.sygic.truck", "com.sygic.aura://"),
+            MapModel(MapType.sygicTruck, "Sygic Truck", "com.sygic.truck", "com.sygic.aura://"),
             MapModel(MapType.copilot, "CoPilot", "com.alk.copilot.mapviewer", "copilot://"),
             MapModel(MapType.flitsmeister, "Flitsmeister", "nl.flitsmeister", "flitsmeister://"),
-            MapModel(MapType.truckmeister, "Truckmeister", "nl.flitsmeister.flux", "truckmeister://")
+            MapModel(MapType.truckmeister, "Truckmeister", "nl.flitsmeister.flux", "truckmeister://"),
+            MapModel(MapType.naver, "Naver Map", "com.nhn.android.nmap", "nmap://"),
+            MapModel(MapType.kakao, "Kakao Maps", "net.daum.android.map", "kakaomap://"),
+            MapModel(MapType.tmap, "TMap", "com.skt.tmap.ku", "tmap://"),
+            MapModel(MapType.mapyCz, "Mapy CZ", "cz.seznam.mapy", "https://")
     )
 
     private fun getInstalledMaps(): List<MapModel> {
-        return maps.filter { map -> canOpenIntent(map) }
-    }
-
-    private fun canOpenIntent(map: MapModel): Boolean {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("${map.urlPrefix}test"))
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.setPackage(map.packageName)
-
-        intent.resolveActivity(context.packageManager)?.let {
-            return true;
+        return maps.filter { map ->
+            context.packageManager?.getLaunchIntentForPackage(map.packageName) != null
         }
-
-        return false;
     }
 
     private fun isMapAvailable(type: String): Boolean {
         val installedMaps = getInstalledMaps()
         return installedMaps.any { map -> map.mapType.name == type }
-    }
-
-    private fun launchGoogleMaps(url: String) {
-        context.let {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            if (intent.resolveActivity(it.packageManager) != null) {
-                it.startActivity(intent)
-            }
-        }
     }
 
     private fun launchMap(mapType: MapType, url: String, result: Result) {

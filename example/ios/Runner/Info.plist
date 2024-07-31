@@ -58,8 +58,14 @@
 			<string>copilot</string>
 			<string>tomtomgo</string>
 			<string>com.sygic.aura</string>
-			<string>flitsmeister</string>
-			<string>truckmeister</string>
+			<string>nmap</string>
+			<string>kakaomap</string>
+			<string>tmap</string>
+			<string>szn-mapy</string>
 	</array>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>
